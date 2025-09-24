@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-renf-eval-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: php-renf-eval
+  template:
+    metadata:
+      name: php-renf-eval
+      labels:
+        app: php-renf-eval
+    spec:
+      containers:
+      - name: php-renf-eval
+        image: 20220796/php-renf-eval:1.0
+        ports:
+          - containerPort: 80
+        volumeMounts:
+        - name: php-renf-eval-configmap
+          mountPath: /var/www/config.ini
+          subPath: config.ini
+
+      volumes:
+      - name: php-renf-eval-data
+        hostPath:
+          path: /srv/php-renf-eval-data
+          type: DirectoryOrCreate
+      - name: php-renf-eval-configmap
+        configMap:
+          name:  php-renf-eval-configmap
+

@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-eval-deployment
+spec:
+  selector:
+    matchLabels:
+      app: mysql-renf-eval
+  template:
+    metadata:
+      name: mysql-renf-eval
+      labels:
+        app: mysql-renf-eval
+    spec:
+      containers:
+      - name: mysql-renf-eval
+        image: 20220796/mysql-renf-eval:1.0
+        resources:
+          limits:
+            memory: "512Mi"
+        ports:
+          - containerPort: 3306
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: root
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: mysql-renf-eval-data
+
+      volumes:
+      - name: mysql-renf-eval-data
+        persistentVolumeClaim:
+          claimName: mysql-renf-eval-pvc

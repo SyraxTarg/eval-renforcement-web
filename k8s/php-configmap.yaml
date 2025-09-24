@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: php-renf-eval-configmap
+data:
+  config.ini: |
+    host=mysql-renf-eval-service
+    username=root
+    password=root
+    db=gestion_produits
+    port=3306
