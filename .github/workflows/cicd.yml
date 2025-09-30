@@ -1,0 +1,38 @@
+name: build and deploy gestion produits
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+
+      - name: Build Docker php image
+        run: docker build ./php -t 20220796/php-renf-eval:${{ variables.APP_VERSION }} -t 20220796/php-renf-eval:${{ github.sha }}
+
+      - name: Build Docker mysql image
+        run: docker build ./database -t 20220796/mysql-renf-eval:${{ variables.APP_VERSION }} -t 20220796/mysql-renf-eval:${{ github.sha }}
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push Docker php image
+        run: |
+          docker push 20220796/php-renf-eval:${{ variables.APP_VERSION }}
+          docker push 20220796/php-renf-eval:${{ github.sha }}
+
+      - name: Push Docker mysql image
+        run: |
+          docker push 20220796/mysql-renf-eval:${{ variables.APP_VERSION }}
+          docker push 20220796/mysql-renf-eval:${{ github.sha }}
