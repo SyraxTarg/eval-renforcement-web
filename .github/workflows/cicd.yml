@@ -14,7 +14,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-
       - name: Build Docker php image
         run: docker build ./php -t 20220796/php-renf-eval:${{ vars.APP_VERSION }} -t 20220796/php-renf-eval:${{ github.sha }}
 
@@ -36,3 +35,25 @@ jobs:
         run: |
           docker push 20220796/mysql-renf-eval:${{ vars.APP_VERSION }}
           docker push 20220796/mysql-renf-eval:${{ github.sha }}
+
+  deploy-kube:
+    runs-on: ubuntu-latest
+    needs: [build-publish]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          printf "%s" "${{ secrets.KUBECONFIG }}" > ~/.kube/config
+          chmod 600 ~/.kube/config
+
+      - name: Verify cluster access
+        run: kubectl cluster-info
+
+      - name: Deploy manifests
+        run: |
+          cd k8s
+          kubectl apply -f .
