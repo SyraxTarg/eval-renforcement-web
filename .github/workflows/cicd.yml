@@ -56,4 +56,4 @@ jobs:
       - name: Deploy manifests
         run: |
           cd k8s
-          kubectl apply -f .
+          kubectl apply -n maimiti -f .

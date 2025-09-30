@@ -17,7 +17,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Gestion des produits</h1>
+        <h1>Gestion des produits TEST</h1>
         
         <table class="table table-hover">
             <thead class="table-dark">
