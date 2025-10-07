@@ -47,13 +47,13 @@ Le cluster a été créé sur Azure Cloud. Afin d'y accéder, j'ai téléchargé
 `export KUBECONFIG=$HOME/.kube/config-az`.
 
 ### Scalabilité
-![alt text](assets/scalability.png)
+![alt text](scalability.png)
 Ici, le déploiement php-renf-eval-deployment possède trois réplicas donc trois pods ont été créé.
 
 ### Déploiement
-![alt text](assets/deployed.png)
+![alt text](deployed.png)
 Lorsque l'on accède à l'ip du service, on arrive bien sur l'application et les données sont bien persistantes grace aux PV et PVC
 
 ## Partie 3: CI/CD
 
-La partie CI/CD a été effectuée sur GitHub Actions.
+La partie CI/CD a été effectuée sur GitHub Actio
