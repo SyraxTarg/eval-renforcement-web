@@ -57,3 +57,5 @@ Lorsque l'on accède à l'ip du service, on arrive bien sur l'application et les
 ## Partie 3: CI/CD
 
 La partie CI/CD a été effectuée sur GitHub Action
+
+TESTING CICD
