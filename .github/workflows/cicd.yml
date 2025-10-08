@@ -50,9 +50,6 @@ jobs:
           printf "%s" "${{ secrets.KUBECONFIG }}" > ~/.kube/config
           chmod 600 ~/.kube/config
 
-      - name: Verify cluster access
-        run: kubectl cluster-info
-
       - name: Deploy manifests
         run: |
           cd k8s
