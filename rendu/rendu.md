@@ -58,4 +58,3 @@ Lorsque l'on accède à l'ip du service, on arrive bien sur l'application et les
 
 La partie CI/CD a été effectuée sur GitHub Action
 
-TESTING CICD
