@@ -4,8 +4,13 @@
 #### M1 dev - octobre 2025
 ---
 
+Tous les fichiers demandés sont disponibles dans le dossier `/k8s` pour les fichiers kubernetes et `/.github/workflows` pour le pipeline.
+
 ## Partie 1: Conteneurisation avec Docker
 ### commandes pour construire les images
+
+Fichiers dockerfile disponibles aux chemins suivants : `/php` et `/database`.
+Le docker compose est disponible à la racine du projet.
 
 1) Construire les images
 
@@ -46,6 +51,8 @@ La première commande est facultative car elle permet de construire toutes les i
 Le cluster a été créé sur Azure Cloud. Afin d'y accéder, j'ai téléchargé le fichier kubeconfig et l'ai mis dans ~/.kube/config-az. J'ai enfin instancié la variable d'environnement kubeconfig pour pointer vers ce fichier avec
 `export KUBECONFIG=$HOME/.kube/config-az`.
 
+Tous les fichiers kubernetes sont disponibles dans le fichier `/k8s`.
+
 ### Scalabilité
 ![alt text](scalability.png)
 Ici, le déploiement php-renf-eval-deployment possède trois réplicas donc trois pods ont été créé.
@@ -56,5 +63,12 @@ Lorsque l'on accède à l'ip du service, on arrive bien sur l'application et les
 
 ## Partie 3: CI/CD
 
-La partie CI/CD a été effectuée sur GitHub Action
+La partie CI/CD a été effectuée sur GitHub Action. Voici la vidéo du pipeline en action. Le fichier de configuration du pipeline est disponible dans `/.github/workflows`.
 
+Retrouvez la vidéo dans le mail que je vous ai envoyé.
+
+Explication de la vidéo:
+
+Dans un premier temps, je regarde s'il y a des pods lancés dans mon namespace. Il n'y en a aucun. Je lance la commande `kubectl get po -w` pour mettre un watch sur la récupération des pods.
+Ensuite, je fais un commit sur le projet et je push les modifications sur la branche distante. Le workflow / pipeline va se lancer. 
+Le pipeline contient deux jobs, un premier job qui va construire les images et les pousser sur le registry docker hub et un deuxième job qui va déployer le projet sur kubernetes et qui dépend du premier job. On voit en temps réel que le projet est déployé et que les pods sont créés. Enfin, je vois que l'ip retournée par le load balancer pointe bien vers mon application.
